@@ -12,9 +12,8 @@ from openai import OpenAI
 #from openai import AsyncOpenAI
 from pydantic import BaseModel
 
-#from google.generativeai import GenerativeModel
-
-from shiny.express import ui
+from shinyswatch import theme
+from shiny.express import render, ui
 
 # Either explicitly set the GOOGLE_API_KEY environment variable before launching the
 # app, or set them in a file named `.env`. The `python-dotenv` package will load `.env`
@@ -66,11 +65,19 @@ def process_chat_contents(contents):
 
 # Set some Shiny page options
 ui.page_opts(
-    title="Hello Google Gemini Chat",
+    title="Hello Shiny with Google Gemini Chat",
     fillable=True,
     fillable_mobile=True,
+    theme=theme.pulse,
 )
 
+with ui.sidebar():
+    "Sidebar content"
+    with ui.card():
+        ui.card_header("Card header")
+        "Card body"
+
+# MAIN CONTENT
 # Create and display empty chat
 chat = ui.Chat(id="chat")
 chat.ui()

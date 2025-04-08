@@ -1,4 +1,5 @@
 shiny
+shinyswatch
 python-dotenv
 tokenizers
 openai
