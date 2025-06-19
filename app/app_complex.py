@@ -7,8 +7,10 @@
 #from app_utils import load_dotenv
 # import instructor
 import google.auth
+from google.oauth2 import service_account
 import google.auth.transport.requests
 from openai import OpenAI
+import instructor
 #from openai import AsyncOpenAI
 from pydantic import BaseModel
 
@@ -19,21 +21,32 @@ from shiny.express import render, ui
 # app, or set them in a file named `.env`. The `python-dotenv` package will load `.env`
 # as environment variables which can later be read by `os.getenv()`.
 #load_dotenv()
-creds, _ = google.auth.default()
+# creds, _ = google.auth.default()
+# auth_req = google.auth.transport.requests.Request()
+# creds.refresh(auth_req)
+SCOPES = ["https://www.googleapis.com/auth/cloud-platform"] # for vertex ai connect and inference
+creds, _ = google.auth.load_credentials_from_file("C:/Users/dani7078/CodingRack/rax-enterprisebi-github-etls.json", scopes=SCOPES)
+#json_account_info = json.loads(os.getenv('GCLOUD_SERVICE_KEY'))
+#creds, _ = google.auth.load_credentials_from_dict(json_account_info, scopes=SCOPES)
 auth_req = google.auth.transport.requests.Request()
 creds.refresh(auth_req)
+
+# wokrs with githuh actions servcie aacount not the artifacts....
 # Pass the Vertex endpoint and authentication to the OpenAI SDK
 PROJECT = 'rax-enterprisebi'
 LOCATION = (
     'us-central1'  # https://cloud.google.com/vertex-ai/generative-ai/docs/learn/locations
 )
 base_url = f'https://{LOCATION}-aiplatform.googleapis.com/v1beta1/projects/{PROJECT}/locations/{LOCATION}/endpoints/openapi'
+
+# client = instructor.from_openai(
+#     OpenAI(base_url=base_url, api_key=creds.token), mode=instructor.Mode.JSON
+# )
 # llm = instructor.from_openai(
 #     OpenAI(base_url=base_url, api_key=creds.token), mode=instructor.Mode.JSON
 # )
 #llm = AsyncOpenAI(base_url=base_url, api_key=creds.token)
 llm = OpenAI(base_url=base_url, api_key=creds.token)
-
 
 class QnA(BaseModel):
     question: str
