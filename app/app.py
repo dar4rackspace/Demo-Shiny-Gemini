@@ -81,7 +81,7 @@ ui.page_opts(
     title="Hello Shiny with Google Gemini Chat",
     fillable=True,
     fillable_mobile=True,
-    theme=theme.quartz,
+    theme=theme.materia,
 )
 
 # with ui.sidebar():
